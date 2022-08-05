@@ -1,0 +1,63 @@
+header, footer, body, header h1, a {
+    color: seashell;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+a {
+    display: block;
+}
+header {
+    padding: 1vw;
+}
+header, footer {
+    background-color: midnightblue;
+}
+body {
+    width: 100%;
+    background-color: #363945;
+}
+footer {
+    width: 100%;
+    position: absolute;
+    padding: 1vw;
+}
+.area {
+    position: relative;
+    margin: 2vw;
+    background-color: lightslategrey;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.logo, .detail, h2 {
+    display: inline;
+    margin: auto;
+    vertical-align: middle;
+}
+.logo {
+    width: 6vw;
+    height: auto;
+}
+.detail {
+    position: absolute;
+    width: 4vw;
+    height: auto;
+    right: 1vw;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+h2 {
+    text-align: center;
+    position: relative;
+    top: 50%;
+}
+.information {
+    margin: 2vw;
+    padding: 1vw;
+    background-color: lightslategrey;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+p {
+    font-size: 1vw;
+}

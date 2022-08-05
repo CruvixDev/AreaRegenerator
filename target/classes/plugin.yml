@@ -1,0 +1,46 @@
+--- 
+api-version: "1.19"
+author: Cruvix
+commands: 
+  throwAcquisition:
+    description: "Use this command to throw an acquisition."
+    usage: "/throwAcquisition"
+  stopAcquisition:
+    description: "Use this command to stop the acquisition."
+    usage: "/stopAcquisition"
+  setPlaceableBlock:
+    description: "Use this command to list blocks that players can place."
+    usage: "/setPlaceableBlock <block1> <block2> ... <blockn>"
+  registerArea:
+    description: "Use this command to register a new area to execute plugin."
+    usage: "/registerArea <area name>"
+  unregisterArea:
+    description: "Use this command to unregister an area to execute plugin."
+    usage: "/unregisterArea"
+  showPlaceableBlocks:
+    description: "Use this command to show placeable blocks in a registered area."
+    usage: "/showPlaceableBlocks"
+  showAreaRegistered:
+    description: "Use this command to show all registered areas on the server."
+    usage: "/showAreaRegistered"
+  clearPlaceableBlocks:
+    description: "Use this command to clear several or all materials in the list."
+    usage: "/clearPlaceableBlocks <optional:material1>  <optional:material2> ...  <optional:materialn>"
+  changeTool:
+    description: "Use this command to change the tool used."
+    usage: "/changeTool <valid item>"
+  notifyBlockSet:
+    description: "Use this command to notify the plugin that a block is set in an area"
+    usage: "/notifyBlockSet <x> <y> <z>" 
+  setNonExplosiveBlocks:
+    description: "Use this command to list blocks that TNT or other explosive entity cannot break"
+    usage: "/setNonExplosiveBlocks <block1> <block2> ... <blockn>"
+  clearNonExplosiveBlocks:
+    description: "Use this command to clear several or all materials in the list."
+    usage: "clearNonExplosiveBlocks <block1> <block2> ... <blockn>"
+  showNonExplosiveBlocks:
+    description: "Use this command to show non explosive blocks in a registered area."
+    usage: "/showNonExplosiveBlocks"
+main: com.gmail.cruvix.arearegenerator.AreaRegenerator
+name: AreaRegenerator
+version: 1.0
