@@ -10,26 +10,26 @@ import org.bukkit.command.CommandSender;
 public class ClearExploseableBlocksExecutor implements CommandExecutor {
 
     @Override
-    public boolean onCommand(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
-        if (arg0.isOp()) {
-            AreaInformation areaInformation = AreaVerificator.verifyAreas(arg0);
+    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+        if (commandSender.isOp()) {
+            AreaInformation areaInformation = AreaVerificator.verifyAreas(commandSender);
             if (areaInformation != null) {
-                if (arg3.length == 0) {
+                if (strings.length == 0) {
                     areaInformation.clearNonExplosiveMaterials();
                     AreaRegister.getInstance().saveAreaInformationJSON();
                 } else {
-                    ArrayList<Material> materialsList = MaterialsTranslator.translateIntoMaterials(arg3);
+                    ArrayList<Material> materialsList = MaterialsTranslator.translateIntoMaterials(strings);
                     if (materialsList != null) {
                         areaInformation.clearNonExplosiveMaterials(materialsList);
                         AreaRegister.getInstance().saveAreaInformationJSON();
                     } else {
-                        arg0.sendMessage(ChatColor.RED + "Materials list is not valid!");
+                        commandSender.sendMessage(ChatColor.RED + "Materials list is not valid!");
                     }
                 }
 
                 AreaRegister.getInstance().saveAreaInformationJSON();
             } else {
-                arg0.sendMessage(ChatColor.DARK_RED + "You are not in a registered Area!");
+                commandSender.sendMessage(ChatColor.DARK_RED + "You are not in a registered Area!");
             }
         }
 

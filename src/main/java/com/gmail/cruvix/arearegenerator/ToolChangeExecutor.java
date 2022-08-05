@@ -9,21 +9,21 @@ import org.bukkit.command.CommandSender;
 public class ToolChangeExecutor implements CommandExecutor {
 
 	@Override
-	public boolean onCommand(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
-		if (arg0.isOp()) {
-			if (arg3.length == 1) {
-				Material newTool = MaterialsTranslator.translateIntoMaterial(arg3[0]);
+	public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+		if (commandSender.isOp()) {
+			if (strings.length == 1) {
+				Material newTool = MaterialsTranslator.translateIntoMaterial(strings[0]);
 				if (newTool != null) {
 					ToolManager.getInstance().setTool(newTool);
-					arg0.sendMessage(ChatColor.GREEN + "Tool change successfully : " + newTool);
+					commandSender.sendMessage(ChatColor.GREEN + "Tool change successfully : " + newTool);
 				} else {
-					arg0.sendMessage(ChatColor.RED + "Tool not valid!");
+					commandSender.sendMessage(ChatColor.RED + "Tool not valid!");
 				}
 			} else {
-				arg0.sendMessage(ChatColor.RED + "Too many arguments!");
+				commandSender.sendMessage(ChatColor.RED + "Too many arguments!");
 			}
 		} else {
-			arg0.sendMessage(ChatColor.RED + "You are not allowed to perform this command!");
+			commandSender.sendMessage(ChatColor.RED + "You are not allowed to perform this command!");
 		}
 
 		return false;

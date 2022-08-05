@@ -15,18 +15,18 @@ public class NotifyBlockSetExecutor implements CommandExecutor {
 	}
 
 	@Override
-	public boolean onCommand(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
-		if (arg0.isOp()) {
-			if (arg3.length == 3) {
+	public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+		if (commandSender.isOp()) {
+			if (strings.length == 3) {
 				BlockSetEvent blockSetEvent = new BlockSetEvent();
-				AreaInformation areaInformation = AreaRegister.getInstance().isInArea(new Coordinate(Integer.parseInt(arg3[0]), Integer.parseInt(arg3[2])));
-				Location location = new Location(this.areaRegenerator.getServer().getWorld(areaInformation.getWorldName()), Double.parseDouble(arg3[0]), Double.parseDouble(arg3[1]), Double.parseDouble(arg3[2]));
+				AreaInformation areaInformation = AreaRegister.getInstance().isInArea(new Coordinate(Integer.parseInt(strings[0]), Integer.parseInt(strings[2])));
+				Location location = new Location(this.areaRegenerator.getServer().getWorld(areaInformation.getWorldName()), Double.parseDouble(strings[0]), Double.parseDouble(strings[1]), Double.parseDouble(strings[2]));
 				blockSetEvent.setBlockSetLocation(location);
 				PluginManager pm = this.areaRegenerator.getServer().getPluginManager();
 				pm.callEvent(blockSetEvent);
 			}
 		} else {
-			arg0.sendMessage(ChatColor.RED + "You are not allow to perform this command!");
+			commandSender.sendMessage(ChatColor.RED + "You are not allow to perform this command!");
 		}
 
 		return false;

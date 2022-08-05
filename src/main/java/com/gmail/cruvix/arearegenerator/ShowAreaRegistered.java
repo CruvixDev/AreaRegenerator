@@ -8,11 +8,11 @@ import org.bukkit.command.CommandSender;
 public class ShowAreaRegistered implements CommandExecutor {
 
 	@Override
-	public boolean onCommand(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
-		if (arg0.isOp()) {
-			arg0.sendMessage(ChatColor.GREEN + AreaRegister.getInstance().toString());
+	public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+		if (commandSender.isOp()) {
+			commandSender.sendMessage(ChatColor.GREEN + AreaRegister.getInstance().toString());
 		} else {
-			arg0.sendMessage(ChatColor.RED + "You are not allowed to perform this command!");
+			commandSender.sendMessage(ChatColor.RED + "You are not allowed to perform this command!");
 		}
 		return false;
 	}

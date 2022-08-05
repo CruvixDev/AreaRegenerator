@@ -14,18 +14,18 @@ public class ThrowAcquisitionExecutor implements CommandExecutor {
 	}
 
 	@Override
-	public boolean onCommand(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
-		if (arg0.isOp()) {
-			AreaInformation areaInformation = AreaVerificator.verifyAreas(arg0);
+	public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+		if (commandSender.isOp()) {
+			AreaInformation areaInformation = AreaVerificator.verifyAreas(commandSender);
 			if (areaInformation != null) {
 				PluginManager pm = this.areaRegenerator.getServer().getPluginManager();
 				pm.registerEvents(areaInformation.getEventHandler(), this.areaRegenerator);
-				arg0.sendMessage(ChatColor.GREEN + "Acquisition thrown.");
+				commandSender.sendMessage(ChatColor.GREEN + "Acquisition thrown.");
 			} else {
-				arg0.sendMessage(ChatColor.RED + "You are not in a registered Area!");
+				commandSender.sendMessage(ChatColor.RED + "You are not in a registered Area!");
 			}
 		} else {
-			arg0.sendMessage(ChatColor.RED + "You are not allow to perform this command!");
+			commandSender.sendMessage(ChatColor.RED + "You are not allow to perform this command!");
 		}
 
 		return false;
