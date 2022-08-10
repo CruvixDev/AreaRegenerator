@@ -16,7 +16,7 @@ public final class ToolManager implements Listener {
 	private Coordinate point2;
 
 	public ToolManager() {
-		this.tool = Material.GOLDEN_SHOVEL;
+		this.tool = Material.DIAMOND_SHOVEL;
 		this.point1 = new Coordinate();
 		this.point2 = new Coordinate();
 	}

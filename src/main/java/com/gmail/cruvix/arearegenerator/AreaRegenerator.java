@@ -1,15 +1,20 @@
 package com.gmail.cruvix.arearegenerator;
 
 import org.bukkit.plugin.java.JavaPlugin;
-import java.net.URL;
+
+import java.util.Properties;
 
 public final class AreaRegenerator extends JavaPlugin {
-	private final URL jarPath = this.getClass().getProtectionDomain().getCodeSource().getLocation();
-	private final String resourcesPath = this.getDataFolder().getAbsolutePath() + "/web";
-	private final WebServer webServer = WebServer.getInstance(jarPath,resourcesPath);
+	private static Properties properties = new Properties();
+	private WebServer webServer;
 
 	@Override
 	public void onEnable() {
+
+		properties.setProperty("jarPath", this.getClass().getProtectionDomain().getCodeSource().getLocation().toString());
+		properties.setProperty("resourcesPath", this.getDataFolder().getAbsolutePath());
+		webServer = WebServer.getInstance();
+
 		this.getCommand("throwAcquisition").setExecutor(new ThrowAcquisitionExecutor(this));
 		this.getCommand("stopAcquisition").setExecutor(new StopAcquisitionExecutor());
 		this.getCommand("registerArea").setExecutor(new RegisterAreaExecutor());
@@ -20,18 +25,23 @@ public final class AreaRegenerator extends JavaPlugin {
 		this.getCommand("clearPlaceableBlocks").setExecutor(new ClearPlaceableBlocksExecutor());
 		this.getCommand("changeTool").setExecutor(new ToolChangeExecutor());
 		this.getCommand("notifyBlockSet").setExecutor(new NotifyBlockSetExecutor(this));
-		this.getCommand("setNonExplosiveBlocks").setExecutor(new SetExploseableBlocksExecutor());
-		this.getCommand("clearNonExplosiveBlocks").setExecutor(new ClearExploseableBlocksExecutor());
+		this.getCommand("setNonExplosiveBlocks").setExecutor(new SetNonExplosiveBlocksExecutor());
+		this.getCommand("clearNonExplosiveBlocks").setExecutor(new ClearNonExplosiveBlocksExecutor());
 		this.getCommand("showNonExplosiveBlocks").setExecutor(new ShowNonExplosiveBlocksExecutor());
 		this.getCommand("startWebServer").setExecutor(new StartWebServerExecutor(webServer));
 		this.getCommand("stopWebServer").setExecutor(new StopWebServerExecutor(webServer));
 		this.getServer().getPluginManager().registerEvents(ToolManager.getInstance(), this);
-		AreaRegister.getInstance().readAreaInformationJSON();
+
+		DatabaseManager.createDatabase();
 	}
 
 	@Override
 	public void onDisable() {
 		AreaRegister.getInstance().saveAreaInformationJSON();
 		webServer.stopWebServer();
+	}
+
+	public static Properties getProperties() {
+		return properties;
 	}
 }

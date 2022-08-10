@@ -19,7 +19,7 @@ public class NotifyBlockSetExecutor implements CommandExecutor {
 		if (commandSender.isOp()) {
 			if (strings.length == 3) {
 				BlockSetEvent blockSetEvent = new BlockSetEvent();
-				AreaInformation areaInformation = AreaRegister.getInstance().isInArea(new Coordinate(Integer.parseInt(strings[0]), Integer.parseInt(strings[2])));
+				AreaInformation areaInformation = AreaRegister.getInstance().isInArea(new Coordinate(Integer.parseInt(strings[0]), Integer.parseInt(strings[1]),Integer.parseInt(strings[2])));
 				Location location = new Location(this.areaRegenerator.getServer().getWorld(areaInformation.getWorldName()), Double.parseDouble(strings[0]), Double.parseDouble(strings[1]), Double.parseDouble(strings[2]));
 				blockSetEvent.setBlockSetLocation(location);
 				PluginManager pm = this.areaRegenerator.getServer().getPluginManager();

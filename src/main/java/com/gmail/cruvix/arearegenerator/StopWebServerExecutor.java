@@ -15,8 +15,13 @@ public class StopWebServerExecutor implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (commandSender.isOp()) {
-            webServer.stopWebServer();
-            commandSender.sendMessage(ChatColor.YELLOW + "Web server state : " + webServer.getState());
+            boolean state = webServer.stopWebServer();
+            if (state) {
+                commandSender.sendMessage(ChatColor.YELLOW + "The web server is successfully stopped!");
+            }
+            else {
+                commandSender.sendMessage(ChatColor.YELLOW + "The web server failed to stop or already stopped!");
+            }
         }
         else {
             commandSender.sendMessage(ChatColor.RED + "You are not allow to perform this command!");

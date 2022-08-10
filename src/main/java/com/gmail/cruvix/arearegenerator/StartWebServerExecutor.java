@@ -15,8 +15,13 @@ public class StartWebServerExecutor implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (commandSender.isOp()) {
-            webServer.startWebServer();
-            commandSender.sendMessage(ChatColor.YELLOW + "Web server state : " + webServer.getState());
+            boolean state = webServer.startWebServer();
+            if (state) {
+                commandSender.sendMessage(ChatColor.YELLOW + "The web server successfully start!");
+            }
+            else {
+                commandSender.sendMessage(ChatColor.YELLOW + "The web server failed to start or already running!");
+            }
         }
         else {
             commandSender.sendMessage(ChatColor.RED + "You are not allow to perform this command!");

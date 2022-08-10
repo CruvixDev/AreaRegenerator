@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -13,18 +12,13 @@ import org.bukkit.block.data.Bisected;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Bisected.Half;
 import org.bukkit.block.data.type.Bed;
-import org.bukkit.block.data.type.TrapDoor;
 import org.bukkit.block.data.type.Bed.Part;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
-import org.bukkit.event.player.PlayerItemHeldEvent;
-import org.bukkit.inventory.ItemStack;
 
 /**
  * Class handling events for areas.
@@ -85,7 +79,7 @@ public class EventHandler implements Listener {
 	@org.bukkit.event.EventHandler
 	public void onBlockPlacedEvent(BlockPlaceEvent e) {
 		Block blockInvolves = e.getBlock();
-		Coordinate blockCoordinate = new Coordinate(blockInvolves.getX(), blockInvolves.getZ());
+		Coordinate blockCoordinate = new Coordinate(blockInvolves.getX(), blockInvolves.getY(), blockInvolves.getZ());
 		Coordinate point1 = this.areaInformation.getPoint1();
 		Coordinate point2 = this.areaInformation.getPoint2();
 		if (Coordinate.isInSurface(blockCoordinate, point1, point2)) {
@@ -103,7 +97,7 @@ public class EventHandler implements Listener {
 	@org.bukkit.event.EventHandler
 	public void onBlockBrokenEvent(BlockBreakEvent e) {
 		Block blockInvolves = e.getBlock();
-		Coordinate blockCoordinate = new Coordinate(blockInvolves.getX(), blockInvolves.getZ());
+		Coordinate blockCoordinate = new Coordinate(blockInvolves.getX(), blockInvolves.getY(), blockInvolves.getZ());
 		Coordinate point1 = this.areaInformation.getPoint1();
 		Coordinate point2 = this.areaInformation.getPoint2();
 		if (Coordinate.isInSurface(blockCoordinate, point1, point2)) {
@@ -120,7 +114,7 @@ public class EventHandler implements Listener {
 	@org.bukkit.event.EventHandler
 	public void onBucketPlacedEvent(PlayerBucketEmptyEvent e) {
 		Block blockInvolves = e.getBlock();
-		Coordinate blockCoordinate = new Coordinate(blockInvolves.getX(), blockInvolves.getZ());
+		Coordinate blockCoordinate = new Coordinate(blockInvolves.getX(), blockInvolves.getY(), blockInvolves.getZ());
 		Coordinate point1 = this.areaInformation.getPoint1();
 		Coordinate point2 = this.areaInformation.getPoint2();
 		if (Coordinate.isInSurface(blockCoordinate, point1, point2)) {
@@ -151,7 +145,7 @@ public class EventHandler implements Listener {
 		Coordinate point1 = this.areaInformation.getPoint1();
 		Coordinate point2 = this.areaInformation.getPoint2();
 		for (Block block : new ArrayList<Block>(e.blockList())) {
-			Coordinate coordinate = new Coordinate(block.getX(), block.getZ());
+			Coordinate coordinate = new Coordinate(block.getX(), block.getY(), block.getZ());
 			if (Coordinate.isInSurface(coordinate, point1, point2) && (!this.areaInformation.getPlaceableBlocks().contains(block.getType()) || this.areaInformation.getNonExplosiveBlocks().contains(block.getType()) || !this.placedBlocksLocation.contains(block.getLocation()))) {
 				e.blockList().remove(block);
 			}

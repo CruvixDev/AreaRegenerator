@@ -18,6 +18,7 @@ public class SetPlaceableBlocksExecutor implements CommandExecutor {
 				ArrayList<Material> materialsList = MaterialsTranslator.translateIntoMaterials(strings);
 				if (materialsList != null) {
 					areaInformation.addPlaceableMaterials(materialsList);
+					DatabaseManager.insertBlocks(areaInformation,materialsList,BlockMode.PLACEABLE);
 				} else {
 					commandSender.sendMessage(ChatColor.RED + "Materials list not valid!");
 				}

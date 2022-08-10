@@ -16,12 +16,13 @@ public class RegisterAreaExecutor implements CommandExecutor {
 				String areaName = strings[0];
 				AreaRegister areaRegister = AreaRegister.getInstance();
 				if (!areaRegister.containsAreaName(areaName)) {
-					Coordinate point1 = new Coordinate(this.toolManager.getPoint1().getX(), this.toolManager.getPoint1().getY());
-					Coordinate point2 = new Coordinate(this.toolManager.getPoint2().getX(), this.toolManager.getPoint2().getY());
+					Coordinate point1 = new Coordinate(this.toolManager.getPoint1().getX(), this.toolManager.getPoint1().getY(), this.toolManager.getPoint1().getZ());
+					Coordinate point2 = new Coordinate(this.toolManager.getPoint2().getX(), this.toolManager.getPoint2().getY(), this.toolManager.getPoint2().getZ());
 					if (this.coordValid() && !areaRegister.isRiding(point1, point2)) {
 						Player player = (Player)commandSender;
-						areaRegister.addAreaInformations(new AreaInformation(areaName, player.getWorld().getName(), point1, point2));
-						areaRegister.saveAreaInformationJSON();
+						AreaInformation areaInformation = new AreaInformation(areaName, player.getWorld().getName(), point1, point2);
+						areaRegister.addAreaInformations(areaInformation);
+						DatabaseManager.insertArea(areaInformation);
 					} else {
 						commandSender.sendMessage(ChatColor.RED + "Coordinate not valid!");
 					}

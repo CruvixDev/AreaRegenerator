@@ -16,12 +16,12 @@ public class ClearPlaceableBlocksExecutor implements CommandExecutor {
 			if (areaInformation != null) {
 				if (strings.length == 0) {
 					areaInformation.clearPlaceableMaterials();
-					AreaRegister.getInstance().saveAreaInformationJSON();
+					//delete blocks in database manager
 				} else {
 					ArrayList<Material> materialsList = MaterialsTranslator.translateIntoMaterials(strings);
 					if (materialsList != null) {
 						areaInformation.clearPlaceableMaterials(materialsList);
-						AreaRegister.getInstance().saveAreaInformationJSON();
+						DatabaseManager.dropBlocks(areaInformation,materialsList,BlockMode.PLACEABLE);
 					} else {
 						commandSender.sendMessage(ChatColor.RED + "Materials list is not valid!");
 					}

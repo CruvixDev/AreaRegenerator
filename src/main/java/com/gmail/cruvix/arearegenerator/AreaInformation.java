@@ -45,6 +45,10 @@ public class AreaInformation {
 		}
 	}
 
+	public void addPlaceableMaterial(Material material) {
+		this.placeableMaterials.add(material);
+	}
+
 	/**
 	 * Clear the list of placeable materials.
 	 */
@@ -60,6 +64,10 @@ public class AreaInformation {
 		this.placeableMaterials.removeAll(materialsList);
 	}
 
+	public void clearPlaceableMaterial(Material material) {
+		this.placeableMaterials.remove(material);
+	}
+
 	/**
 	 * Add new non exploseable materials in the existing list.
 	 * @param materialsList the list of materials to add.
@@ -70,6 +78,10 @@ public class AreaInformation {
 				this.nonExplosiveMaterials.add(m);
 			}
 		}
+	}
+
+	public void addNonExplosiveMaterial(Material material) {
+		this.nonExplosiveMaterials.add(material);
 	}
 
 	/**
@@ -85,6 +97,10 @@ public class AreaInformation {
 	 */
 	public void clearNonExplosiveMaterials(ArrayList<Material> materialsList) {
 		this.nonExplosiveMaterials.removeAll(materialsList);
+	}
+
+	public void clearNonExplosiveMaterial(Material material) {
+		this.nonExplosiveMaterials.remove(material);
 	}
 
 	/**

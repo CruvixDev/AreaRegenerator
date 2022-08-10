@@ -7,20 +7,21 @@ import java.io.Serializable;
  * @author Julien Cruvieux
  *
  */
-public class Coordinate implements Serializable{
-
-	private static final long serialVersionUID = 8969253717320431963L;
+public class Coordinate {
 	private int x;
 	private int y;
+	private int z;
 	
 	public Coordinate(){
 		this.x = 0;
 		this.y = 0;
+		this.z = 0;
 	}
 	
-	public Coordinate(int x, int y){
+	public Coordinate(int x, int y, int z){
 		this.x = x;
 		this.y = y;
+		this.z = z;
 	}
 	
 	public int getX(){
@@ -30,6 +31,10 @@ public class Coordinate implements Serializable{
 	public int getY(){
 		return this.y;
 	}
+
+	public int getZ() {
+		return this.z;
+	}
 	
 	public void setX(int x){
 		this.x = x;
@@ -37,6 +42,10 @@ public class Coordinate implements Serializable{
 	
 	public void setY(int y){
 		this.y = y;
+	}
+
+	public void setZ(int z) {
+		this.z = z;
 	}
 	
 	/**
@@ -50,11 +59,11 @@ public class Coordinate implements Serializable{
 		boolean isInSurface = false;
 		
 		int x = point.getX();
-		int y = point.getY();
+		int z = point.getZ();
 		int xmax = 0;
 		int xmin = 0;
-		int ymax = 0;
-		int ymin = 0;
+		int zmax = 0;
+		int zmin = 0;
 
 		if (point1.getX() >= point2.getX()){
 			xmax = point1.getX();
@@ -65,16 +74,16 @@ public class Coordinate implements Serializable{
 			xmin = point1.getX();
 		}
 		
-		if (point1.getY() >= point2.getY()){
-			ymax = point1.getY();
-			ymin = point2.getY();
+		if (point1.getZ() >= point2.getZ()){
+			zmax = point1.getZ();
+			zmin = point2.getZ();
 		}
 		else{
-			ymax = point2.getY();
-			ymin = point1.getY();
+			zmax = point2.getZ();
+			zmin = point1.getZ();
 		}
 		
-		if ((xmin <= x && x <= xmax) && (ymin <= y && y <= ymax)){
+		if ((xmin <= x && x <= xmax) && (zmin <= z && z <= zmax)){
 			isInSurface = true;
 		}
 		return isInSurface;
@@ -82,14 +91,14 @@ public class Coordinate implements Serializable{
 	
 	@Override
 	public String toString(){
-		return "(" + this.x + ", " + this.y + ")";
+		return "(" + this.x + ", " + this.y + ", " + this.z + ")";
 	}
 	
 	@Override
 	public boolean equals(Object obj){
 		if (obj instanceof Coordinate){
 			Coordinate coord = (Coordinate)obj;
-			if (coord.getX() == this.x && coord.getY() == this.y){
+			if (coord.getX() == this.x && coord.getY() == this.y && coord.getZ() == this.z){
 				return true;
 			}
 			else{

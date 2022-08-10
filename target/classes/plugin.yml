@@ -41,6 +41,12 @@ commands:
   showNonExplosiveBlocks:
     description: "Use this command to show non explosive blocks in a registered area."
     usage: "/showNonExplosiveBlocks"
+  startWebServer:
+    description: "Use this command to start the web server showing the areas registered on the server."
+    usage: "/startWebServer"
+  stopWebServer:
+    description: "Use this command to stop the web server running on the server."
+    usage: "/stopWebServer"
 main: com.gmail.cruvix.arearegenerator.AreaRegenerator
 name: AreaRegenerator
 version: 1.0
