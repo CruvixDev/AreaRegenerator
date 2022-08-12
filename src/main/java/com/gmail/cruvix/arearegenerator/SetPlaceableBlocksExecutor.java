@@ -17,13 +17,11 @@ public class SetPlaceableBlocksExecutor implements CommandExecutor {
 				new ArrayList();
 				ArrayList<Material> materialsList = MaterialsTranslator.translateIntoMaterials(strings);
 				if (materialsList != null) {
-					areaInformation.addPlaceableMaterials(materialsList);
+					materialsList = areaInformation.addPlaceableMaterials(materialsList);
 					DatabaseManager.insertBlocks(areaInformation,materialsList,BlockMode.PLACEABLE);
 				} else {
 					commandSender.sendMessage(ChatColor.RED + "Materials list not valid!");
 				}
-
-				AreaRegister.getInstance().saveAreaInformationJSON();
 			} else {
 				commandSender.sendMessage(ChatColor.RED + "You are not in a registered Area!");
 			}

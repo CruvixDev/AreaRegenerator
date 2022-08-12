@@ -23,6 +23,7 @@ public class DatabaseManager {
             return connection;
         }
         catch (SQLException e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -101,7 +102,9 @@ public class DatabaseManager {
             statement = connection.prepareStatement(containsNonExplosiveBlocksTableRequest);
             statement.executeUpdate();
         }
-        catch (SQLException | NullPointerException e) {}
+        catch (SQLException | NullPointerException e) {
+            e.printStackTrace();
+        }
         finally {
             try {
                 statement.close();
@@ -147,7 +150,9 @@ public class DatabaseManager {
             statement.setInt(8, point2Z);
             statement.executeUpdate();
         }
-        catch (SQLException | NullPointerException e) {}
+        catch (SQLException | NullPointerException e) {
+            e.printStackTrace();
+        }
         finally {
             try {
                 statement.close();
@@ -168,42 +173,48 @@ public class DatabaseManager {
         //The first parameter in the first request is PlaceableBlocks or NonExplosiveBlocks according to the value
         //of blockMode. In the second request, the first parameter is ContainsPlaceableBlocks or ContainsNonExplosiveBlocks
         //according to the value of blockMode.
-        String insertPlaceableBlocksRequest = "INSERT INTO ? (materialType) VALUES (?);" +
-                "INSERT INTO ? (areaID,materialType) VALUES (?,?)";
+        String insertBlocksRequest = "INSERT OR IGNORE INTO %s (materialType) VALUES (?)";
+        String insertContainsBlocksRequest = "INSERT OR IGNORE INTO %s (areaID,materialType) VALUES (?,?)";
 
         Connection connection = getConnection();
-        PreparedStatement statement = null;
+        PreparedStatement blockStatement = null;
+        PreparedStatement containsStatement = null;
 
         try {
             int areaID = getAreaIDByName(areaInformation);
 
-            statement = connection.prepareStatement(insertPlaceableBlocksRequest);
-
             if (blockMode.equals(BlockMode.PLACEABLE)) {
-                statement.setString(1,"PlaceableBlocks");
-                statement.setString(3,"ContainsPlaceableBlocks");
+                insertBlocksRequest = insertBlocksRequest.replace("%s","PlaceableBlocks");
+                insertContainsBlocksRequest = insertContainsBlocksRequest.replace("%s","ContainsPlaceableBlocks");
                 materials = areaInformation.getPlaceableBlocks();
             }
             else if (blockMode.equals(BlockMode.NON_EXPLOSIVE)){
-                statement.setString(1,"NonExplosiveBlocks");
-                statement.setString(3,"ContainsNonExplosiveBlocks");
+                insertBlocksRequest = insertBlocksRequest.replace("%s","NonExplosiveBlocks");
+                insertContainsBlocksRequest = insertContainsBlocksRequest.replace("%s","ContainsNonExplosiveBlocks");
                 materials = areaInformation.getNonExplosiveBlocks();
             }
 
-            statement.setInt(4,areaID);
+            blockStatement = connection.prepareStatement(insertBlocksRequest);
+            containsStatement = connection.prepareStatement(insertContainsBlocksRequest);
+
+            containsStatement.setInt(1,areaID);
             for (Material material : materials) {
-                statement.setString(2,material.toString());
-                statement.setString(5,material.toString());
-                statement.addBatch();
-                statement.clearParameters();
+                blockStatement.setString(1,material.toString());
+                containsStatement.setString(2,material.toString());
+                blockStatement.addBatch();
+                containsStatement.addBatch();
             }
-            statement.executeBatch();
-            statement.executeBatch();
+
+            blockStatement.executeBatch();
+            containsStatement.executeBatch();
         }
-        catch (SQLException | NullPointerException e) {}
+        catch (SQLException | NullPointerException e) {
+            e.printStackTrace();
+        }
         finally {
             try {
-                statement.close();
+                blockStatement.close();
+                containsStatement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
@@ -231,7 +242,9 @@ public class DatabaseManager {
             statement = connection.prepareStatement(dropBlocksIntoDeletedAreaRequest);
             statement.executeUpdate();
         }
-        catch (SQLException | NullPointerException e) {}
+        catch (SQLException | NullPointerException e) {
+            e.printStackTrace();
+        }
         finally {
             try {
                 statement.close();
@@ -249,42 +262,45 @@ public class DatabaseManager {
      * @param blockMode choose if these materials are non-explosive or placeable.
      */
     public static void dropBlocks(AreaInformation areaInformation, ArrayList<Material> materials, BlockMode blockMode) {
-        String dropBlocksRequest = "DELETE FROM ? WHERE ?.areaID = ? AND " +
-                "?.materialType = ?; DELETE FROM ? WHERE materialType NOT IN (SELECT materialType FROM ?)";
+        String dropBlocksRequest = "DELETE FROM %t1 WHERE %t1.areaID = ? AND %t1.materialType = ?";
+        String dropContainsBlocksRequest = "DELETE FROM %t1 WHERE %t1.materialType NOT IN (SELECT %t2.materialType FROM %t2)";
 
         Connection connection = getConnection();
-        PreparedStatement statement = null;
+        PreparedStatement blockStatement = null;
+        PreparedStatement containsStatement = null;
 
         try {
             int areaId = getAreaIDByName(areaInformation);
 
-            statement = connection.prepareStatement(dropBlocksRequest);
             if (blockMode.equals(BlockMode.PLACEABLE)) {
-                statement.setString(1,"ContainsPlaceableBlocks");
-                statement.setString(2,"ContainsPlaceableBlocks");
-                statement.setInt(3,areaId);
-                statement.setString(4,"ContainsPlaceableBlocks");
-                statement.setString(6,"PlaceableBlocks");
-                statement.setString(7,"ContainsPlaceableBlocks");
+                dropBlocksRequest = dropBlocksRequest.replace("%t1","ContainsPlaceableBlocks");
+                dropContainsBlocksRequest = dropContainsBlocksRequest.replace("%t1","PlaceableBlocks");
+                dropContainsBlocksRequest = dropContainsBlocksRequest.replace("%t2","ContainsPlaceableBlocks");
             }
             else if (blockMode.equals(BlockMode.NON_EXPLOSIVE)){
-                statement.setString(1,"ContainsNonExplosiveBlocks");
-                statement.setString(2,"ContainsNonExplosiveBlocks");
-                statement.setInt(3,areaId);
-                statement.setString(4,"ContainsNonExplosiveBlocks");
-                statement.setString(6,"NonExplosiveBlocks");
-                statement.setString(7,"ContainsNonExplosiveBlocks");
+                dropBlocksRequest = dropBlocksRequest.replace("%t1","ContainsNonExplosiveBlocks");
+                dropContainsBlocksRequest = dropContainsBlocksRequest.replace("%t1","NonExplosiveBlocks");
+                dropContainsBlocksRequest = dropContainsBlocksRequest.replace("%t2","ContainsNonExplosiveBlocks");
             }
+
+            blockStatement = connection.prepareStatement(dropBlocksRequest);
+            containsStatement = connection.prepareStatement(dropContainsBlocksRequest);
+            blockStatement.setInt(1,areaId);
+
             for (Material material : materials) {
-                statement.setString(5,material.toString());
-                statement.addBatch();
+                blockStatement.setString(2,material.toString());
+                blockStatement.addBatch();
             }
-            statement.executeBatch();
+            blockStatement.executeBatch();
+            containsStatement.executeUpdate();
         }
-        catch (SQLException | NullPointerException e) {}
+        catch (SQLException | NullPointerException e) {
+            e.printStackTrace();
+        }
         finally {
             try {
-                statement.close();
+                blockStatement.close();
+                containsStatement.close();
                 connection.close();
             }
             catch (SQLException | NullPointerException e) {
@@ -297,6 +313,7 @@ public class DatabaseManager {
         String getAllAreasRequest = "SELECT * FROM Areas";
         String getPlaceableBlocksRequest = "SELECT ContainsPlaceableBlocks.materialType FROM ContainsPlaceableBlocks WHERE ContainsPlaceableBlocks.areaID = ?";
         String getNonExplosiveBlocksRequest = "SELECT ContainsNonExplosiveBlocks.materialType FROM ContainsNonExplosiveBlocks WHERE ContainsNonExplosiveBlocks.areaID = ?";
+        ArrayList<AreaInformation> areasInformation = new ArrayList<>();
 
         Connection connection = getConnection();
         PreparedStatement statement = null;
@@ -338,10 +355,14 @@ public class DatabaseManager {
                 while (blocks.next()) {
                     areaInformation.addNonExplosiveMaterial(Material.matchMaterial(blocks.getString(1)));
                 }
-                AreaRegister.getInstance().addAreaInformations(areaInformation);
+                areasInformation.add(areaInformation);
             }
+            return areasInformation;
         }
-        catch (SQLException | NullPointerException e) {}
+        catch (SQLException | NullPointerException e) {
+            e.printStackTrace();
+            return null;
+        }
         finally {
             try {
                 statement.close();
@@ -351,7 +372,6 @@ public class DatabaseManager {
                 e.printStackTrace();
             }
         }
-        return null;
     }
 
     private static int getAreaIDByName(AreaInformation areaInformation) {
@@ -367,7 +387,10 @@ public class DatabaseManager {
             int areaID = statement.executeQuery().getInt(1);
             return areaID;
         }
-        catch (SQLException | NullPointerException e) {return 0;}
+        catch (SQLException | NullPointerException e) {
+            e.printStackTrace();
+            return 0;
+        }
         finally {
             try {
                 statement.close();

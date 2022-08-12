@@ -17,9 +17,9 @@ public class UnregisterAreaExecutor implements CommandExecutor {
 					areaInformation.getEventHandler().clearPlacedBlocks();
 					HandlerList.unregisterAll(areaInformation.getEventHandler());
 					AreaRegister.getInstance().removeAreaInformations(areaInformation);
+					DatabaseManager.dropArea(areaInformation);
 					commandSender.sendMessage(ChatColor.GREEN + "The area " + areaInformation.getAreaName() + " was successfully unregistered.");
 					areaInformation = null;
-					AreaRegister.getInstance().saveAreaInformationJSON();
 				} else {
 					commandSender.sendMessage(ChatColor.RED + "You are not in a registered area!");
 				}

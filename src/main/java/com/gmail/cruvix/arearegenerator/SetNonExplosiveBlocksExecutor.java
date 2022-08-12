@@ -17,13 +17,11 @@ public class SetNonExplosiveBlocksExecutor implements CommandExecutor {
                 new ArrayList();
                 ArrayList<Material> materialsList = MaterialsTranslator.translateIntoMaterials(strings);
                 if (materialsList != null) {
-                    areaInformation.addNonExplosiveMaterials(materialsList);
+                    materialsList = areaInformation.addNonExplosiveMaterials(materialsList);
                     DatabaseManager.insertBlocks(areaInformation,materialsList,BlockMode.NON_EXPLOSIVE);
                 } else {
                     commandSender.sendMessage(ChatColor.RED + "Materials list not valid!");
                 }
-
-                AreaRegister.getInstance().saveAreaInformationJSON();
             } else {
                 commandSender.sendMessage(ChatColor.RED + "You are not in a registered Area!");
             }

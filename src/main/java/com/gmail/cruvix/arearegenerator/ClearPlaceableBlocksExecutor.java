@@ -15,19 +15,17 @@ public class ClearPlaceableBlocksExecutor implements CommandExecutor {
 			AreaInformation areaInformation = AreaVerificator.verifyAreas(commandSender);
 			if (areaInformation != null) {
 				if (strings.length == 0) {
+					DatabaseManager.dropBlocks(areaInformation,areaInformation.getPlaceableBlocks(),BlockMode.PLACEABLE);
 					areaInformation.clearPlaceableMaterials();
-					//delete blocks in database manager
 				} else {
 					ArrayList<Material> materialsList = MaterialsTranslator.translateIntoMaterials(strings);
 					if (materialsList != null) {
-						areaInformation.clearPlaceableMaterials(materialsList);
+						materialsList = areaInformation.clearPlaceableMaterials(materialsList);
 						DatabaseManager.dropBlocks(areaInformation,materialsList,BlockMode.PLACEABLE);
 					} else {
 						commandSender.sendMessage(ChatColor.RED + "Materials list is not valid!");
 					}
 				}
-
-				AreaRegister.getInstance().saveAreaInformationJSON();
 			} else {
 				commandSender.sendMessage(ChatColor.RED + "You are not in a registered Area!");
 			}

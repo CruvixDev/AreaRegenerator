@@ -20,11 +20,13 @@ public class AreaVerificator {
 		if (sender instanceof BlockCommandSender) {
 			BlockCommandSender blockCommandSender = (BlockCommandSender)sender;
 			point.setX(blockCommandSender.getBlock().getX());
-			point.setY(blockCommandSender.getBlock().getZ());
+			point.setY(blockCommandSender.getBlock().getY());
+			point.setZ(blockCommandSender.getBlock().getZ());
 		} else if (sender instanceof Player) {
 			Player player = (Player)sender;
 			point.setX(player.getLocation().getBlock().getX());
-			point.setY(player.getLocation().getBlock().getZ());
+			point.setY(player.getLocation().getBlock().getY());
+			point.setZ(player.getLocation().getBlock().getZ());
 		}
 
 		return AreaRegister.getInstance().isInArea(point);

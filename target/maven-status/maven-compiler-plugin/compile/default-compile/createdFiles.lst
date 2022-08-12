@@ -2,6 +2,7 @@ com\gmail\cruvix\arearegenerator\AreaRegenerator.class
 com\gmail\cruvix\arearegenerator\NotifyBlockSetExecutor.class
 com\gmail\cruvix\arearegenerator\WebServer$1.class
 com\gmail\cruvix\arearegenerator\ToolChangeExecutor.class
+com\gmail\cruvix\arearegenerator\ClearNonExplosiveBlocksExecutor.class
 com\gmail\cruvix\arearegenerator\ClearPlaceableBlocksExecutor.class
 com\gmail\cruvix\arearegenerator\EventHandler.class
 com\gmail\cruvix\arearegenerator\SetPlaceableBlocksExecutor.class
@@ -15,8 +16,9 @@ com\gmail\cruvix\arearegenerator\ShowPlaceableBlocksExecutor.class
 com\gmail\cruvix\arearegenerator\ToolManager.class
 com\gmail\cruvix\arearegenerator\AreaVerificator.class
 com\gmail\cruvix\arearegenerator\AreaInformation.class
+com\gmail\cruvix\arearegenerator\BlockMode.class
 com\gmail\cruvix\arearegenerator\BlockSetEvent.class
-com\gmail\cruvix\arearegenerator\ClearExploseableBlocksExecutor.class
+com\gmail\cruvix\arearegenerator\SetNonExplosiveBlocksExecutor.class
 com\gmail\cruvix\arearegenerator\WebServer.class
 com\gmail\cruvix\arearegenerator\ShowNonExplosiveBlocksExecutor.class
 com\gmail\cruvix\arearegenerator\AreaRegister.class
@@ -24,4 +26,3 @@ com\gmail\cruvix\arearegenerator\MaterialsTranslator.class
 com\gmail\cruvix\arearegenerator\DatabaseManager.class
 com\gmail\cruvix\arearegenerator\RegisterAreaExecutor.class
 com\gmail\cruvix\arearegenerator\UnregisterAreaExecutor.class
-com\gmail\cruvix\arearegenerator\SetExploseableBlocksExecutor.class

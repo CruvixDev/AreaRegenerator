@@ -37,12 +37,15 @@ public class AreaInformation {
 	 * Add new placeable materials in the existing list.
 	 * @param materialsList the list of materials to add.
 	 */
-	public void addPlaceableMaterials(ArrayList<Material> materialsList) {
+	public ArrayList<Material> addPlaceableMaterials(ArrayList<Material> materialsList) {
+		ArrayList<Material> newMaterials = new ArrayList<>();
 		for (Material m : materialsList) {
 			if (!this.placeableMaterials.contains(m)) {
 				this.placeableMaterials.add(m);
+				newMaterials.add(m);
 			}
 		}
+		return newMaterials;
 	}
 
 	public void addPlaceableMaterial(Material material) {
@@ -60,24 +63,30 @@ public class AreaInformation {
 	 * Clear specified placeable materials in the list.
 	 * @param materialsList the list of materials to remove.
 	 */
-	public void clearPlaceableMaterials(ArrayList<Material> materialsList) {
+	public ArrayList<Material> clearPlaceableMaterials(ArrayList<Material> materialsList) {
+		ArrayList<Material> materialsToDrop = new ArrayList<>();
+		for (Material material : materialsList) {
+			if (this.placeableMaterials.contains(material)) {
+				materialsToDrop.add(material);
+			}
+		}
 		this.placeableMaterials.removeAll(materialsList);
-	}
-
-	public void clearPlaceableMaterial(Material material) {
-		this.placeableMaterials.remove(material);
+		return materialsToDrop;
 	}
 
 	/**
 	 * Add new non exploseable materials in the existing list.
 	 * @param materialsList the list of materials to add.
 	 */
-	public void addNonExplosiveMaterials(ArrayList<Material> materialsList) {
+	public ArrayList<Material> addNonExplosiveMaterials(ArrayList<Material> materialsList) {
+		ArrayList<Material> newMaterials = new ArrayList<>();
 		for (Material m : materialsList) {
 			if (!this.nonExplosiveMaterials.contains(m)) {
 				this.nonExplosiveMaterials.add(m);
+				newMaterials.add(m);
 			}
 		}
+		return newMaterials;
 	}
 
 	public void addNonExplosiveMaterial(Material material) {
@@ -95,12 +104,15 @@ public class AreaInformation {
 	 * Clear specified non exploseable materials in the list.
 	 * @param materialsList the list of materials to remove.
 	 */
-	public void clearNonExplosiveMaterials(ArrayList<Material> materialsList) {
+	public ArrayList<Material> clearNonExplosiveMaterials(ArrayList<Material> materialsList) {
+		ArrayList<Material> materialsToDrop = new ArrayList<>();
+		for (Material material : materialsList) {
+			if (this.nonExplosiveMaterials.contains(material)) {
+				materialsToDrop.add(material);
+			}
+		}
 		this.nonExplosiveMaterials.removeAll(materialsList);
-	}
-
-	public void clearNonExplosiveMaterial(Material material) {
-		this.nonExplosiveMaterials.remove(material);
+		return materialsToDrop;
 	}
 
 	/**

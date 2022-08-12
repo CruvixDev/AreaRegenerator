@@ -2,6 +2,7 @@ package com.gmail.cruvix.arearegenerator;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
 import java.util.Properties;
 
 public final class AreaRegenerator extends JavaPlugin {
@@ -33,11 +34,14 @@ public final class AreaRegenerator extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(ToolManager.getInstance(), this);
 
 		DatabaseManager.createDatabase();
+		ArrayList<AreaInformation> areasInformation = DatabaseManager.getAllAreas();
+		for (AreaInformation areaInformation : areasInformation) {
+			AreaRegister.getInstance().addAreaInformations(areaInformation);
+		}
 	}
 
 	@Override
 	public void onDisable() {
-		AreaRegister.getInstance().saveAreaInformationJSON();
 		webServer.stopWebServer();
 	}
 

@@ -63,11 +63,13 @@ public final class ToolManager implements Listener {
 		if (e.getItem() != null && e.getItem().getType().equals(this.tool)) {
 			if (e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
 				this.point1.setX(clickedBlock.getX());
-				this.point1.setY(clickedBlock.getZ());
+				this.point1.setY(clickedBlock.getY());
+				this.point1.setZ(clickedBlock.getZ());
 				player.sendMessage(ChatColor.AQUA + "First point seting at : " + this.point1.toString());
 			} else if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 				this.point2.setX(clickedBlock.getX());
-				this.point2.setY(clickedBlock.getZ());
+				this.point2.setY(clickedBlock.getY());
+				this.point2.setZ(clickedBlock.getZ());
 				player.sendMessage(ChatColor.AQUA + "Second point seting at : " + this.point2.toString());
 			}
 			e.setCancelled(true);
